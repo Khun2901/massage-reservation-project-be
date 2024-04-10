@@ -1,9 +1,15 @@
+// Import necessary libraries
 const express = require('express')
 const dotenv = require('dotenv')
+const cookieParser = require('cookie-parser')
 const connectDB = require('./config/db')
 
 // Load env vars
 dotenv.config({path: './config/config.env'})
+
+// Import Router files
+const auth = require('./routes/auth')
+const bodyParser = require('body-parser')
 
 //Connect to Database
 connectDB()
@@ -19,6 +25,13 @@ app.get('/', (req, res) => {
         }
     })
 })
+
+// Body Parser
+app.use(express.json())
+app.use(cookieParser())
+
+// Mount Router
+app.use('/api/v1/auth', auth)
 
 const PORT = process.env.PORT || 8000
 

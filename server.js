@@ -10,7 +10,7 @@ dotenv.config({ path: './config/config.env' });
 // Import Router files
 const auth = require('./routes/auth');
 const bodyParser = require('body-parser');
-// const massages = require('./routes/massages');
+const massages = require('./routes/massages');
 
 //Connect to Database
 connectDB();
@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Mount Router
-// app.use('/api/v1/massages', massages);
+app.use('/api/v1/massages', massages);
 app.use('/api/v1/auth', auth);
 
 const PORT = process.env.PORT || 8000;

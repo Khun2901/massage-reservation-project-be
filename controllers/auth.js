@@ -61,14 +61,6 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        // Check if the user is banned
-        if (user.isBanned) {
-            return res.status(401).send({
-                success: false,
-                message: 'User is banned',
-            });
-        }
-
         // Check password matching
         const isMatch = user.matchPassword(password);
         if (!isMatch) {
@@ -76,6 +68,20 @@ exports.login = async (req, res, next) => {
                 success: false,
                 message: 'Invalid Credentials',
             });
+        }
+
+        // Check if the user is banned
+        if (user.isBanned) {
+            if (user.finalDateBanned < Date.now()) {
+                user.isBanned = false;
+            }
+            else {
+                return res.status(401).send({
+                    success: false,
+                    message: 'User is banned',
+                });
+            }
+            
         }
 
         // User Existed: Return status 200

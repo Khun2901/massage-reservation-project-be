@@ -66,12 +66,4 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Auto set isBanned to false if finalDateBanned is expired
-UserSchema.pre('save', function (next) {
-    if (this.finalDateBanned < Date.now()) {
-        this.isBanned = false;
-    }
-    next();
-});
-
 module.exports = mongoose.model('User', UserSchema);

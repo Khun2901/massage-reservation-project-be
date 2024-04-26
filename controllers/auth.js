@@ -74,14 +74,13 @@ exports.login = async (req, res, next) => {
         if (user.isBanned) {
             if (user.finalDateBanned < Date.now()) {
                 user.isBanned = false;
-            }
-            else {
+                user.save({ isBanned: false });
+            } else {
                 return res.status(401).send({
                     success: false,
                     message: 'User is banned',
                 });
             }
-            
         }
 
         // User Existed: Return status 200

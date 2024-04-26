@@ -12,6 +12,7 @@ const auth = require('./routes/auth');
 const bodyParser = require('body-parser');
 const massages = require('./routes/massages');
 const appointments = require('./routes/appointments');
+const users = require('./routes/users');
 
 //Connect to Database
 connectDB();
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use('/api/v1/massages', massages);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/appointments', appointments);
+app.use('/api/v1/users', users);
 
 const PORT = process.env.PORT || 8000;
 

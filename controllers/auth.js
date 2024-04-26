@@ -70,6 +70,20 @@ exports.login = async (req, res, next) => {
             });
         }
 
+        // Check if the user is banned
+        if (user.isBanned) {
+            if (user.finalDateBanned < Date.now()) {
+                user.isBanned = false;
+            }
+            else {
+                return res.status(401).send({
+                    success: false,
+                    message: 'User is banned',
+                });
+            }
+            
+        }
+
         // User Existed: Return status 200
         sendTokenResponse(user, 200, res);
     } catch (err) {

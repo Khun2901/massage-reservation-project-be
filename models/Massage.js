@@ -34,25 +34,25 @@ const MassageSchema = new mongoose.Schema(
             required: [true, 'Please add a region'],
         },
     },
-    // {
-    //     toJSON: { virtuals: true },
-    //     toObject: { virtuals: true },
-    // },
+    {
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true },
+    },
 );
 
 // Cascade delete appointments when a massage is deleted
-// MassageSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
-//     console.log(`Appointments being removed from massage ${this._id}`);
-//     await this.model('Appointment').deleteMany({ massage: this._id });
-//     next();
-// });
+MassageSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+    console.log(`Appointments being removed from massage ${this._id}`);
+    await this.model('Appointment').deleteMany({ massage: this._id });
+    next();
+});
 
 // Reverse populate with virtuals
-// MassageSchema.virtual('appointments', {
-//     ref: 'Appointment',
-//     localField: '_id',
-//     foreignField: 'massage',
-//     justOne: false,
-// });
+MassageSchema.virtual('appointments', {
+    ref: 'Appointment',
+    localField: '_id',
+    foreignField: 'massage',
+    justOne: false,
+});
 
 module.exports = mongoose.model('Massage', MassageSchema);

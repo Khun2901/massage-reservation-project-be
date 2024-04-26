@@ -26,6 +26,17 @@ const MassageSchema = new mongoose.Schema(
             required: [true, 'Please add a postal code'],
             maxlength: [5, 'Postal code can not be more than 5 digits'],
         },
+        openclose: {
+            type: String,
+            required: [true, 'Please add open-close time'],
+            // Parse and check
+            validate: {
+                validator: function (v) {
+                    return /^([01]?[0-9]|2[0-3]):[0-5][0-9]-([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(v);
+                },
+                message: (props) => `${props.value} is not a valid open-close time!`,
+            },
+        },
         tel: {
             type: String,
         },
